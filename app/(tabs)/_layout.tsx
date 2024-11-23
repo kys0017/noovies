@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, Text, View} from 'react-native';
 
 import {HapticTab} from '@/components/HapticTab';
 import {IconSymbol} from '@/components/ui/IconSymbol';
@@ -11,22 +11,25 @@ import {Tabs} from "expo-router";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-
   return (
     <Tabs
-      initialRouteName='search'
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        // headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
+        tabBarStyle: {
+          ...Platform.select({
+            ios: {
+              // Use a transparent background on iOS to show the blur effect
+              position: 'absolute',
+            },
+            default: {},
+          }),
+          backgroundColor: 'tomato'
+        },
+        headerTitleStyle: {color: 'red'},
+        headerRight: () => <View><Text>Hello</Text></View>
       }}>
       <Tabs.Screen
         name="index"
@@ -40,7 +43,6 @@ export default function TabLayout() {
         options={{
           title: 'Tv',
           tabBarIcon: ({color}) => <IconSymbol size={28} name="house.fill" color={color}/>,
-
         }}
       />
       <Tabs.Screen
