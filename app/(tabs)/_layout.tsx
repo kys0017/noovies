@@ -4,18 +4,27 @@ import {Platform, Text, View} from 'react-native';
 import {HapticTab} from '@/components/HapticTab';
 import {IconSymbol} from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import {Colors} from '@/constants/Colors';
+import {BLACK_COLOR, Colors, YELLOW_COLOR} from '@/constants/Colors';
 import {useColorScheme} from '@/hooks/useColorScheme';
 import {Tabs} from "expo-router";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark'
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
+        tabBarInactiveTintColor: isDark ? '#d2dae2' : '#808e9b',
         // headerShown: false,
+        headerStyle: {
+          backgroundColor: isDark ? BLACK_COLOR : 'white'
+        },
+        headerTitleStyle: {
+          color: isDark ? 'white' : BLACK_COLOR,
+        },
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: {
@@ -26,10 +35,8 @@ export default function TabLayout() {
             },
             default: {},
           }),
-          backgroundColor: 'tomato'
+          backgroundColor: isDark ? BLACK_COLOR : 'white'
         },
-        headerTitleStyle: {color: 'red'},
-        headerRight: () => <View><Text>Hello</Text></View>
       }}>
       <Tabs.Screen
         name="index"
