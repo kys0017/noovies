@@ -7,6 +7,7 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import {BLACK_COLOR, Colors, YELLOW_COLOR} from '@/constants/Colors';
 import {useColorScheme} from '@/hooks/useColorScheme';
 import {Tabs} from "expo-router";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -37,26 +38,32 @@ export default function TabLayout() {
           }),
           backgroundColor: isDark ? BLACK_COLOR : 'white'
         },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600'
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Movies',
-          tabBarIcon: ({color}) => <IconSymbol size={28} name="house.fill" color={color}/>,
+          tabBarIcon: ({color, size}) => <Ionicons name={'film-outline'} color={color}
+                                                   size={size}/>,
         }}
       />
       <Tabs.Screen
         name="tv"
         options={{
-          title: 'Tv',
-          tabBarIcon: ({color}) => <IconSymbol size={28} name="house.fill" color={color}/>,
+          title: 'TV',
+          tabBarIcon: ({color, size}) => <Ionicons name="tv-outline" color={color} size={size}/>,
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
           title: 'Search',
-          tabBarIcon: ({color}) => <IconSymbol size={28} name="house.fill" color={color}/>,
+          tabBarIcon: ({color, size}) => <Ionicons name={'search-outline'} color={color}
+                                                   size={size}/>,
         }}
       />
       <Tabs.Screen
