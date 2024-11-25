@@ -7,7 +7,7 @@ import 'react-native-reanimated';
 import {useAssets} from 'expo-asset';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {Image} from 'react-native'
+import {Image, Text, View} from 'react-native'
 
 import {useColorScheme} from '@/hooks/useColorScheme';
 
@@ -28,7 +28,7 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
       console.log('loaded!!')
 
-      router.navigate('/(tabs)/search')
+      // router.navigate('/(tabs)/search')
     }
   }, [loaded]);
 
@@ -40,8 +40,11 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-        <Stack.Screen name="+not-found"/>
+        {/*<Stack.Screen name="(tabs)" options={{headerShown: false}}/>*/}
+        {/*<Stack.Screen name="+not-found"/>*/}
+        <Stack.Screen name='one'/>
+        <Stack.Screen name='two'/>
+        <Stack.Screen name='three'/>
       </Stack>
       <StatusBar style="auto"/>
     </ThemeProvider>
