@@ -10,6 +10,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import {Image, Text, View} from 'react-native'
 
 import {useColorScheme} from '@/hooks/useColorScheme';
+import {YELLOW_COLOR} from "@/constants/Colors";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,7 +40,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack screenOptions={{
+        // presentation: "modal",
+        animation: "fade",
+        headerTintColor: YELLOW_COLOR,
+        headerBackButtonDisplayMode: 'minimal'
+      }}>
         {/*<Stack.Screen name="(tabs)" options={{headerShown: false}}/>*/}
         {/*<Stack.Screen name="+not-found"/>*/}
         <Stack.Screen name='one'/>
