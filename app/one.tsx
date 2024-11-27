@@ -6,7 +6,7 @@ const One = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <TouchableOpacity>
-        <Link href={{pathname: './two'}}>Go to two11111</Link>
+        <Link href={{pathname: './two'}}>Go to two</Link>
       </TouchableOpacity>
     </View>
   );

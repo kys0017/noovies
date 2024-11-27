@@ -28,8 +28,6 @@ export default function RootLayout() {
       Image.prefetch('https://media.istockphoto.com/id/1366930330/ko/%EC%82%AC%EC%A7%84/%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%90%9C-%EC%86%90%EC%97%90-%EB%9C%A8%EA%B1%B0%EC%9A%B4-%EC%BB%A4%ED%94%BC-%EC%BB%B5.jpg?s=2048x2048&w=is&k=20&c=KKdy4ZIUyTB0GCcOiOTlMOr9jahEIGf5vAMjiR-0nD4=')
       SplashScreen.hideAsync();
       console.log('loaded!!')
-
-      router.navigate('/(tabs)/movies')
     }
   }, [loaded]);
 
@@ -40,12 +38,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+      <Stack screenOptions={{presentation: 'modal'}}>
+        <Stack.Screen name="(tabs)" options={{headerShown: false, presentation: 'fullScreenModal'}}/>
         <Stack.Screen name="+not-found"/>
-        {/*<Stack.Screen name='one'/>*/}
-        {/*<Stack.Screen name='two'/>*/}
-        {/*<Stack.Screen name='three'/>*/}
+        <Stack.Screen name='one'/>
+        <Stack.Screen name='two'/>
+        <Stack.Screen name='three'/>
       </Stack>
       <StatusBar style="auto"/>
     </ThemeProvider>

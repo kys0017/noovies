@@ -20,7 +20,7 @@ export default function TabLayout() {
           // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
           tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
           tabBarInactiveTintColor: isDark ? '#d2dae2' : '#808e9b',
-          headerShown: false,
+          // headerShown: false,
           headerStyle: {
             backgroundColor: isDark ? BLACK_COLOR : 'white'
           },
@@ -46,14 +46,6 @@ export default function TabLayout() {
         }}>
         <Tabs.Screen
           name="index"
-          options={{
-            href: null,
-            title: 'Home',
-            tabBarIcon: ({color}) => <IconSymbol size={28} name="paperplane.fill" color={color}/>,
-          }}
-        />
-        <Tabs.Screen
-          name="movies"
           options={{
             title: 'Movies',
             tabBarIcon: ({color, size}) => <Ionicons name={'film-outline'} color={color}
