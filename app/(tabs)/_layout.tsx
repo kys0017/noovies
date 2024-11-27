@@ -6,7 +6,7 @@ import {IconSymbol} from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import {BLACK_COLOR, Colors, YELLOW_COLOR} from '@/constants/Colors';
 import {useColorScheme} from '@/hooks/useColorScheme';
-import {Tabs} from "expo-router";
+import {Stack, Tabs} from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
@@ -14,66 +14,77 @@ export default function TabLayout() {
   const isDark = colorScheme === 'dark'
 
   return (
-    <Tabs
-      screenOptions={{
-        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
-        tabBarInactiveTintColor: isDark ? '#d2dae2' : '#808e9b',
-        // headerShown: false,
-        headerStyle: {
-          backgroundColor: isDark ? BLACK_COLOR : 'white'
-        },
-        headerTitleStyle: {
-          color: isDark ? 'white' : BLACK_COLOR,
-        },
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: {
-          ...Platform.select({
-            ios: {
-              // Use a transparent background on iOS to show the blur effect
-              position: 'absolute',
-            },
-            default: {},
-          }),
-          backgroundColor: isDark ? BLACK_COLOR : 'white'
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600'
-        }
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Movies',
-          tabBarIcon: ({color, size}) => <Ionicons name={'film-outline'} color={color}
-                                                   size={size}/>,
-        }}
-      />
-      <Tabs.Screen
-        name="tv"
-        options={{
-          title: 'TV',
-          tabBarIcon: ({color, size}) => <Ionicons name="tv-outline" color={color} size={size}/>,
-        }}
-      />
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: 'Search',
-          tabBarIcon: ({color, size}) => <Ionicons name={'search-outline'} color={color}
-                                                   size={size}/>,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          href: null,
-          title: 'Explore',
-          tabBarIcon: ({color}) => <IconSymbol size={28} name="paperplane.fill" color={color}/>,
-        }}
-      />
-    </Tabs>
+    <>
+      <Tabs
+        screenOptions={{
+          // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
+          tabBarInactiveTintColor: isDark ? '#d2dae2' : '#808e9b',
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: isDark ? BLACK_COLOR : 'white'
+          },
+          headerTitleStyle: {
+            color: isDark ? 'white' : BLACK_COLOR,
+          },
+          tabBarButton: HapticTab,
+          tabBarBackground: TabBarBackground,
+          tabBarStyle: {
+            ...Platform.select({
+              ios: {
+                // Use a transparent background on iOS to show the blur effect
+                position: 'absolute',
+              },
+              default: {},
+            }),
+            backgroundColor: isDark ? BLACK_COLOR : 'white'
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: '600'
+          }
+        }}>
+        <Tabs.Screen
+          name="index"
+          options={{
+            href: null,
+            title: 'Home',
+            tabBarIcon: ({color}) => <IconSymbol size={28} name="paperplane.fill" color={color}/>,
+          }}
+        />
+        <Tabs.Screen
+          name="movies"
+          options={{
+            title: 'Movies',
+            tabBarIcon: ({color, size}) => <Ionicons name={'film-outline'} color={color}
+                                                     size={size}/>,
+          }}
+        />
+        <Tabs.Screen
+          name="tv"
+          options={{
+            title: 'TV',
+            tabBarIcon: ({color, size}) => <Ionicons name="tv-outline" color={color} size={size}/>,
+          }}
+        />
+        <Tabs.Screen
+          name="search"
+          options={{
+            title: 'Search',
+            tabBarIcon: ({color, size}) => <Ionicons name={'search-outline'} color={color}
+                                                     size={size}/>,
+          }}
+        />
+        <Tabs.Screen
+          name="explore"
+          options={{
+            href: null,
+            title: 'Explore',
+            tabBarIcon: ({color}) => <IconSymbol size={28} name="paperplane.fill" color={color}/>,
+          }}
+        />
+
+      </Tabs>
+    </>
   );
 }

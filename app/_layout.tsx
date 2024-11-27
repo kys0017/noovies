@@ -29,7 +29,7 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
       console.log('loaded!!')
 
-      // router.navigate('/(tabs)/search')
+      router.navigate('/(tabs)/movies')
     }
   }, [loaded]);
 
@@ -40,17 +40,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{
-        // presentation: "modal",
-        animation: "fade",
-        headerTintColor: YELLOW_COLOR,
-        headerBackButtonDisplayMode: 'minimal'
-      }}>
-        {/*<Stack.Screen name="(tabs)" options={{headerShown: false}}/>*/}
-        {/*<Stack.Screen name="+not-found"/>*/}
-        <Stack.Screen name='one'/>
-        <Stack.Screen name='two'/>
-        <Stack.Screen name='three'/>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+        <Stack.Screen name="+not-found"/>
+        {/*<Stack.Screen name='one'/>*/}
+        {/*<Stack.Screen name='two'/>*/}
+        {/*<Stack.Screen name='three'/>*/}
       </Stack>
       <StatusBar style="auto"/>
     </ThemeProvider>

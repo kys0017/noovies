@@ -3,10 +3,12 @@ import {useRouter} from "expo-router";
 import React from "react";
 
 export default function HomeScreen() {
+  const router = useRouter();
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Home</Text>
+      <Text onPress={() => router.push('./movies/one')}>Go to One</Text>
     </View>
   );
 }
