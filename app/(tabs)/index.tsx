@@ -1,33 +1,34 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {useRouter} from "expo-router";
 import React from "react";
+import styled from 'styled-components/native'
+
+const Btn = styled.TouchableOpacity`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`
+
+const Title = styled.Text<{ selected: boolean }>`
+    color: ${props => props.selected ? 'blue' : 'red'}
+`
 
 export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <Btn onPress={() => router.push('/one')}>
       <Text>Home</Text>
-      <Text onPress={() => router.push('/one')}>Go to One</Text>
-    </View>
+      <Title selected={true}>Go to One</Title>
+    </Btn>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  btn: {
+    flex: 1, justifyContent: 'center', alignItems: 'center'
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+  text: {
+    color: 'blue'
+  }
 });
