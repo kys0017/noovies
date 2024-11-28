@@ -7,7 +7,7 @@ const Btn = styled.TouchableOpacity`
     flex: 1;
     justify-content: center;
     align-items: center;
-    background-color: ${props => props.theme.mainBgColor};
+    background-color: ${props => props.theme.mainColor};
 `
 
 const Title = styled.Text<{ selected?: boolean }>`

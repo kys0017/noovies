@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import {Image} from 'react-native'
 
 import {useColorScheme} from '@/hooks/useColorScheme';
-import {darkTheme, lightTheme} from "@/styled";
+import {darkTheme, lightTheme} from "@/theme";
 import {ThemeProvider} from "styled-components/native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
