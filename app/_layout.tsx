@@ -1,5 +1,4 @@
-import {DarkTheme, DefaultTheme, ThemeProvider} from '@react-navigation/native';
-import {router, Stack} from 'expo-router';
+import {Stack} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import {StatusBar} from 'expo-status-bar';
 import {useEffect} from 'react';
@@ -7,20 +6,20 @@ import 'react-native-reanimated';
 import {useAssets} from 'expo-asset';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {Image, Text, View} from 'react-native'
+import {Image} from 'react-native'
 
 import {useColorScheme} from '@/hooks/useColorScheme';
-import {YELLOW_COLOR} from "@/constants/Colors";
+import {darkTheme, lightTheme} from "@/styled";
+import {ThemeProvider} from "styled-components/native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   const [loaded] = Font.useFonts(Ionicons.font);
-  // const [loaded] = Font.useFonts({
-  //   "SpaceMono": require('../assets/fonts/SpaceMono-Regular.ttf'),
-  // });
   const [assets] = useAssets([require('./../coffee.jpg')])
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Stack screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name="(tabs)" options={{headerShown: false, presentation: 'fullScreenModal'}}/>
         <Stack.Screen name="+not-found"/>
