@@ -3,8 +3,7 @@ import Swiper from "react-native-swiper";
 import { ActivityIndicator, Dimensions } from "react-native";
 import { useEffect, useState } from "react";
 import Slide from "@/components/slide";
-
-const API_KEY = 'd2212e9338e21899f29c5010882d13d1'
+import Poster from "@/components/poster";
 
 const API_ACC_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMjIxMmU5MzM4ZTIxODk5ZjI5YzUwMTA4ODJkMTNkMSIsIm5iZiI6MTYzMzA4MDIzNC40ODE5OTk5LCJzdWIiOiI2MTU2ZDNhYTE1NmNjNzAwMmMxZjNkNjEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.3vKKFH7_CaHANmn6GNVJ_9QfzZJg6gdaqgFej8CqE78'
 
@@ -18,6 +17,33 @@ const Loader = styled.View`
 `
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
+
+const ListTitle = styled.Text`
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 30px;
+`
+
+const TrendingScroll = styled.ScrollView`
+  margin-top: 20px;
+`
+
+const Movie = styled.View`
+  margin-right: 20px;
+  align-items: center;
+`
+
+const Title = styled.Text`
+  color: white;
+  font-weight: 600;
+  margin-top: 7px;
+  margin-bottom: 5px;
+`
+const Votes = styled.Text`
+  color: rgba(255, 255, 255, .8);
+  font-size: 10px;
+`
 
 const Movies = () => {
   const [loading, setLoading] = useState(true)
@@ -35,7 +61,7 @@ const Movies = () => {
 
   const getTrending = async () => {
     // https://api.themoviedb.org/3/trending/all/{time_window}
-    const { results } = await (await fetch('https://api.themoviedb.org/3/movie/trending/movie/week?language=en-US', options)).json()
+    const { results } = await (await fetch('https://api.themoviedb.org/3/trending/movie/week?language=en-US', options)).json()
     setTrending(results)
   }
 
@@ -68,7 +94,7 @@ const Movies = () => {
       autoplayTimeout={3.5}
       showsButtons={false}
       showsPagination={false}
-      containerStyle={{ width: '100%', height: SCREEN_HEIGHT / 4 }}>
+      containerStyle={{ marginBottom: 30, width: '100%', height: SCREEN_HEIGHT / 4 }}>
       {nowPlaying.map((movie: any) => <Slide
         backdropPath={movie.backdrop_path}
         posterPath={movie.poster_path}
@@ -77,6 +103,22 @@ const Movies = () => {
         originalTitle={movie.original_title}
         key={movie.id} />)}
     </Swiper>
+    <ListTitle>
+      Trending Movies
+    </ListTitle>
+    <TrendingScroll
+      contentContainerStyle={{ paddingLeft: 30 }}
+      horizontal
+      showsHorizontalScrollIndicator={false}>
+      {trending.map((movie: any) => <Movie key={movie.id}>
+        <Poster path={movie.poster_path} />
+        <Title>
+          {movie.original_title.slice(0, 13)}
+          {movie.original_title.length > 13 ? '...' : null}
+        </Title>
+        <Votes>⭐️{movie.vote_average}/10</Votes>
+      </Movie>)}
+    </TrendingScroll>
   </Container>
 
 }
