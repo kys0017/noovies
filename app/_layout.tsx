@@ -38,8 +38,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Stack screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="(tabs)"
-                      options={{ headerShown: false, presentation: 'fullScreenModal' }} />
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
