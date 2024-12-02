@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { makeImgPath } from "@/utils";
 import { BlurView } from "expo-blur";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import Poster from "@/components/poster";
+import Poster from "@/components/Poster";
 
 const BgImg = styled.Image`
 `

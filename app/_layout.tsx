@@ -1,16 +1,16 @@
-import {Stack} from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import {StatusBar} from 'expo-status-bar';
-import {useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
-import {useAssets} from 'expo-asset';
+import { useAssets } from 'expo-asset';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import {Image} from 'react-native'
+import { Image } from 'react-native'
 
-import {useColorScheme} from '@/hooks/useColorScheme';
-import {darkTheme, lightTheme} from "@/theme";
-import {ThemeProvider} from "styled-components/native";
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { darkTheme, lightTheme } from "@/theme";
+import { ThemeProvider } from "styled-components/native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,14 +37,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-      <Stack screenOptions={{presentation: 'modal'}}>
-        <Stack.Screen name="(tabs)" options={{headerShown: false, presentation: 'fullScreenModal'}}/>
-        <Stack.Screen name="+not-found"/>
-        <Stack.Screen name='one'/>
-        <Stack.Screen name='two'/>
-        <Stack.Screen name='three'/>
+      <Stack screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="(tabs)"
+                      options={{ headerShown: false, presentation: 'fullScreenModal' }} />
+        <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto"/>
+      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
