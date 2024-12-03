@@ -1,10 +1,13 @@
 import styled from "styled-components/native";
 import Swiper from "react-native-swiper";
-import { ActivityIndicator, Dimensions, FlatList, RefreshControl, Text, View } from "react-native";
-import { useEffect, useState } from "react";
+import { ActivityIndicator, Dimensions, FlatList } from "react-native";
+import { useState } from "react";
 import Slide from "@/components/Slide";
 import VMedia from "@/components/VMedia";
 import HMedia from "@/components/HMedia";
+import { useQuery } from "@tanstack/react-query";
+import { movieApi } from "@/api";
+import { useIsFocused } from "@react-navigation/native";
 
 const Loader = styled.View`
   flex: 1;
@@ -33,14 +36,24 @@ const VSeparator = styled.View`
   width: 20px;
 `;
 const HSeparator = styled.View`
-  width: 20px;
+  height: 20px;
 `;
 
 const Movies = () => {
   const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = async () => {
-  };
+  const { isLoading: nowPlayingDataLoading, data: nowPlayingData } = useQuery({
+    queryKey: ["nowPlaying"],
+    queryFn: movieApi.nowPlaying
+  });
+  const { isLoading: upcomingDataLoading, data: upcomingData } = useQuery({
+    queryKey: ["upcoming"],
+    queryFn: movieApi.upcoming
+  });
+  const { isLoading: trendingDataLoading, data: trendingData } = useQuery({
+    queryKey: ["trending"],
+    queryFn: movieApi.trending
+  });
 
   const renderVMedia = ({ item }) => <VMedia
     posterPath={item.poster_path}
@@ -56,12 +69,24 @@ const Movies = () => {
 
   const movieKeyExtractor = (item) => item.id + '';
 
+  const loading = nowPlayingDataLoading ||
+    upcomingDataLoading ||
+    trendingDataLoading;
+
+  // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
+  // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
+  const isFocused = useIsFocused();
+
+  if (!isFocused) {
+    return null;
+  }
+
   return loading ? <Loader>
     <ActivityIndicator />
   </Loader> : (<FlatList
-    onRefresh={onRefresh}
+    // onRefresh={onRefresh}
     refreshing={refreshing}
-    data={upcoming}
+    data={upcomingData.results}
     ListHeaderComponent={<>
       <Swiper
         horizontal
@@ -72,7 +97,7 @@ const Movies = () => {
         showsPagination={false}
         containerStyle={{ marginBottom: 30, width: '100%', height: SCREEN_HEIGHT / 4 }}
       >
-        {nowPlaying.map((movie: any) => <Slide
+        {nowPlayingData.results.map((movie: any) => <Slide
           backdropPath={movie.backdrop_path}
           posterPath={movie.poster_path}
           overview={movie.overview}
@@ -85,7 +110,7 @@ const Movies = () => {
         <ListTitle>Trending Movies</ListTitle>
         <TrendingScroll
           horizontal
-          data={trending}
+          data={trendingData.results}
           keyExtractor={movieKeyExtractor}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 30 }}

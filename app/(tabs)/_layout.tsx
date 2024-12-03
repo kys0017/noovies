@@ -1,17 +1,17 @@
 import React from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { BLACK_COLOR, Colors, YELLOW_COLOR } from '@/constants/Colors';
+import { BLACK_COLOR, YELLOW_COLOR } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Stack, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark'
+  const isDark = colorScheme === 'dark';
 
   return (
     <>
@@ -46,28 +46,39 @@ export default function TabLayout() {
             fontSize: 12,
             fontWeight: '600'
           }
-        }}>
+        }}
+      >
         <Tabs.Screen
           name="index"
           options={{
             title: 'Movies',
-            tabBarIcon: ({ color, size }) => <Ionicons name={'film-outline'} color={color}
-                                                       size={size}/>,
+            tabBarIcon: ({ color, size }) => <Ionicons
+              name={'film-outline'}
+              color={color}
+              size={size}
+            />,
           }}
         />
         <Tabs.Screen
           name="tv"
           options={{
             title: 'TV',
-            tabBarIcon: ({ color, size }) => <Ionicons name="tv-outline" color={color} size={size}/>,
+            tabBarIcon: ({ color, size }) => <Ionicons
+              name="tv-outline"
+              color={color}
+              size={size}
+            />,
           }}
         />
         <Tabs.Screen
           name="search"
           options={{
             title: 'Search',
-            tabBarIcon: ({ color, size }) => <Ionicons name={'search-outline'} color={color}
-                                                       size={size}/>,
+            tabBarIcon: ({ color, size }) => <Ionicons
+              name={'search-outline'}
+              color={color}
+              size={size}
+            />,
           }}
         />
         <Tabs.Screen
@@ -75,7 +86,11 @@ export default function TabLayout() {
           options={{
             href: null,
             title: 'Explore',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color}/>,
+            tabBarIcon: ({ color }) => <IconSymbol
+              size={28}
+              name="paperplane.fill"
+              color={color}
+            />,
           }}
         />
 

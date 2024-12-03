@@ -9,9 +9,11 @@ const options = {
   }
 };
 
-export const trending = () => fetch(`${BASE_URL}/trending/movie/week?language=en-US`, options).then(res => res.json());
+const trending = () => fetch(`${BASE_URL}/trending/movie/week?language=en-US`, options).then(res => res.json());
 
-export const upcoming = () => fetch(`${BASE_URL}/movie/upcoming?language=en-US&page=1`, options).then(res => res.json());
+const upcoming = () => fetch(`${BASE_URL}/movie/upcoming?language=en-US&page=1`, options).then(res => res.json());
 
-export const nowPlaying = () => fetch(`${BASE_URL}/movie/now_playing?language=en-US&page=1`,
+const nowPlaying = () => fetch(`${BASE_URL}/movie/now_playing?language=en-US&page=1`,
   options).then(res => res.json());
+
+export const movieApi = { trending, upcoming, nowPlaying };
