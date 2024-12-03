@@ -5,7 +5,7 @@ import { useState } from "react";
 import Slide from "@/components/Slide";
 import VMedia from "@/components/VMedia";
 import HMedia from "@/components/HMedia";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { movieApi } from "@/api";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -40,20 +40,36 @@ const HSeparator = styled.View`
 `;
 
 const Movies = () => {
-  const [refreshing, setRefreshing] = useState(false);
+  const queryClient = useQueryClient();
 
-  const { isLoading: nowPlayingDataLoading, data: nowPlayingData } = useQuery({
-    queryKey: ["nowPlaying"],
+  const {
+    isLoading: nowPlayingDataLoading,
+    data: nowPlayingData,
+    isRefetching: isRefetchingNowPlaying
+  } = useQuery({
+    queryKey: ["movies", "nowPlaying"],
     queryFn: movieApi.nowPlaying
   });
-  const { isLoading: upcomingDataLoading, data: upcomingData } = useQuery({
-    queryKey: ["upcoming"],
+  const {
+    isLoading: upcomingDataLoading,
+    data: upcomingData,
+    isRefetching: isRefetchingUpcoming
+  } = useQuery({
+    queryKey: ["movies", "upcoming"],
     queryFn: movieApi.upcoming
   });
-  const { isLoading: trendingDataLoading, data: trendingData } = useQuery({
-    queryKey: ["trending"],
+  const {
+    isLoading: trendingDataLoading,
+    data: trendingData,
+    isRefetching: isRefetchingTrending
+  } = useQuery({
+    queryKey: ["movies", "trending"],
     queryFn: movieApi.trending
   });
+
+  const onRefresh = async () => {
+    queryClient.refetchQueries({ queryKey: ['movies'] });
+  };
 
   const renderVMedia = ({ item }) => <VMedia
     posterPath={item.poster_path}
@@ -73,6 +89,8 @@ const Movies = () => {
     upcomingDataLoading ||
     trendingDataLoading;
 
+  const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
+
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
   // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
   const isFocused = useIsFocused();
@@ -84,7 +102,7 @@ const Movies = () => {
   return loading ? <Loader>
     <ActivityIndicator />
   </Loader> : (<FlatList
-    // onRefresh={onRefresh}
+    onRefresh={onRefresh}
     refreshing={refreshing}
     data={upcomingData.results}
     ListHeaderComponent={<>
