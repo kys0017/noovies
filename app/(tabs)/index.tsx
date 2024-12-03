@@ -6,7 +6,7 @@ import Slide from "@/components/Slide";
 import VMedia from "@/components/VMedia";
 import HMedia from "@/components/HMedia";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { movieApi } from "@/api";
+import { Movie, movieApi, MovieResponse } from "@/api";
 import { useIsFocused } from "@react-navigation/native";
 
 const Loader = styled.View`
@@ -46,7 +46,7 @@ const Movies = () => {
     isLoading: nowPlayingDataLoading,
     data: nowPlayingData,
     isRefetching: isRefetchingNowPlaying
-  } = useQuery({
+  } = useQuery<MovieResponse>({
     queryKey: ["movies", "nowPlaying"],
     queryFn: movieApi.nowPlaying
   });
@@ -54,7 +54,7 @@ const Movies = () => {
     isLoading: upcomingDataLoading,
     data: upcomingData,
     isRefetching: isRefetchingUpcoming
-  } = useQuery({
+  } = useQuery<MovieResponse>({
     queryKey: ["movies", "upcoming"],
     queryFn: movieApi.upcoming
   });
@@ -62,7 +62,7 @@ const Movies = () => {
     isLoading: trendingDataLoading,
     data: trendingData,
     isRefetching: isRefetchingTrending
-  } = useQuery({
+  } = useQuery<MovieResponse>({
     queryKey: ["movies", "trending"],
     queryFn: movieApi.trending
   });
@@ -71,25 +71,12 @@ const Movies = () => {
     queryClient.refetchQueries({ queryKey: ['movies'] });
   };
 
-  const renderVMedia = ({ item }) => <VMedia
-    posterPath={item.poster_path}
-    originalTitle={item.original_title}
-    voteAverage={item.vote_average}
-  />;
-
-  const renderHMedia = ({ item }) => <HMedia
-    posterPath={item.poster_path}
-    originalTitle={item.original_title}
-    overview={item.overview}
-  />;
-
-  const movieKeyExtractor = (item) => item.id + '';
-
   const loading = nowPlayingDataLoading ||
     upcomingDataLoading ||
     trendingDataLoading;
 
   const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
+  // console.log(Object.values(nowPlayingData?.results[0]).map(v => typeof v));
 
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
   // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
@@ -101,7 +88,7 @@ const Movies = () => {
 
   return loading ? <Loader>
     <ActivityIndicator />
-  </Loader> : (<FlatList
+  </Loader> : upcomingData && (<FlatList
     onRefresh={onRefresh}
     refreshing={refreshing}
     data={upcomingData.results}
@@ -115,7 +102,7 @@ const Movies = () => {
         showsPagination={false}
         containerStyle={{ marginBottom: 30, width: '100%', height: SCREEN_HEIGHT / 4 }}
       >
-        {nowPlayingData.results.map((movie: any) => <Slide
+        {nowPlayingData?.results.map((movie: any) => <Slide
           backdropPath={movie.backdrop_path}
           posterPath={movie.poster_path}
           overview={movie.overview}
@@ -126,22 +113,30 @@ const Movies = () => {
       </Swiper>
       <ListContainer>
         <ListTitle>Trending Movies</ListTitle>
-        <TrendingScroll
+        {trendingData ? <TrendingScroll
           horizontal
           data={trendingData.results}
-          keyExtractor={movieKeyExtractor}
+          keyExtractor={item => (item as unknown as Movie).id + ''}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 30 }}
           ItemSeparatorComponent={VSeparator}
-          renderItem={renderVMedia}
-        />
+          renderItem={({ item }) => <VMedia
+            posterPath={(item as unknown as Movie).poster_path}
+            originalTitle={(item as unknown as Movie).original_title}
+            voteAverage={(item as unknown as Movie).vote_average}
+          />}
+        /> : null}
       </ListContainer>
       <ComingSoonTitle>Coming soon</ComingSoonTitle>
     </>}
-    keyExtractor={movieKeyExtractor}
+    keyExtractor={item => item.id + ''}
     ItemSeparatorComponent={HSeparator}
-    renderItem={renderHMedia}
-  />);
+    renderItem={({ item }) => <HMedia
+      posterPath={item.poster_path}
+      originalTitle={item.original_title}
+      overview={item.overview}
+    />}
+  />) || null;
 
 };
 

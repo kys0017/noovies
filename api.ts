@@ -9,6 +9,33 @@ const options = {
   }
 };
 
+export interface Movie {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+interface BaseResponse {
+  page: number;
+  total_pages: number;
+  total_results: number;
+}
+
+export interface MovieResponse extends BaseResponse {
+  results: Movie[];
+}
+
 const trending = () => fetch(`${BASE_URL}/trending/movie/week?language=en-US`, options).then(res => res.json());
 
 const upcoming = () => fetch(`${BASE_URL}/movie/upcoming?language=en-US&page=1`, options).then(res => res.json());
