@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components/native";
-import Poster from "./Poster";
-import Votes from "./Votes";
+import React from 'react';
+import styled from 'styled-components/native';
+import Poster from './Poster';
+import Votes from './Votes';
 
 const Movie = styled.View`
   align-items: center;
@@ -20,16 +20,12 @@ interface VMediaProps {
   voteAverage: number;
 }
 
-const VMedia: React.FC<VMediaProps> = ({
-                                         posterPath,
-                                         originalTitle,
-                                         voteAverage,
-                                       }) => (
+const VMedia: React.FC<VMediaProps> = ({ posterPath, originalTitle, voteAverage }) => (
   <Movie>
     <Poster path={posterPath} />
     <Title>
-      {originalTitle.slice(0, 12)}
-      {originalTitle.length > 12 ? "..." : null}
+      {originalTitle?.slice(0, 12)}
+      {originalTitle?.length > 12 ? '...' : null}
     </Title>
     <Votes votes={voteAverage} />
   </Movie>

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components/native";
-import Poster from "./Poster";
-import Votes from "./Votes";
+import React from 'react';
+import styled from 'styled-components/native';
+import Poster from './Poster';
+import Votes from './Votes';
 
 const HMovie = styled.View`
   padding: 0px 30px;
@@ -42,35 +42,31 @@ interface HMediaProps {
 }
 
 const HMedia: React.FC<HMediaProps> = ({
-                                         posterPath,
-                                         originalTitle,
-                                         overview,
-                                         releaseDate,
-                                         voteAverage,
-                                       }) => {
+  posterPath,
+  originalTitle,
+  overview,
+  releaseDate,
+  voteAverage,
+}) => {
   return (
     <HMovie>
       <Poster path={posterPath} />
       <HColumn>
         <Title>
-          {originalTitle.length > 30
-            ? `${originalTitle.slice(0, 30)}...`
-            : originalTitle}
+          {originalTitle.length > 30 ? `${originalTitle.slice(0, 30)}...` : originalTitle}
         </Title>
         {releaseDate ? (
           <Release>
-            {new Date(releaseDate).toLocaleDateString("ko", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
+            {new Date(releaseDate).toLocaleDateString('ko', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
             })}
           </Release>
         ) : null}
         {voteAverage ? <Votes votes={voteAverage} /> : null}
         <Overview>
-          {overview !== "" && overview.length > 140
-            ? `${overview.slice(0, 140)}...`
-            : overview}
+          {overview !== '' && overview.length > 140 ? `${overview.slice(0, 140)}...` : overview}
         </Overview>
       </HColumn>
     </HMovie>

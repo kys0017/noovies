@@ -1,13 +1,69 @@
 import React from 'react';
-import {Text, View} from "react-native";
+import { FlatList, ScrollView } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { tvApi } from '@/api';
+import Loader from '@/components/Loader';
+import VMedia from '@/components/VMedia';
 
 const Tv = () => {
+  const { isLoading: todayLoading, data: todayData } = useQuery({
+    queryKey: ['tv', 'today'],
+    queryFn: tvApi.airingToday,
+  });
+  const { isLoading: topLoading, data: topData } = useQuery({
+    queryKey: ['tv', 'top'],
+    queryFn: tvApi.topRated,
+  });
+  const { isLoading: trendingLoading, data: trendingData } = useQuery({
+    queryKey: ['tv', 'trending'],
+    queryFn: tvApi.trending,
+  });
+
+  const loading = todayLoading || topLoading || trendingLoading;
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Text>
-        TV
-      </Text>
-    </View>
+    <ScrollView>
+      <FlatList
+        data={trendingData.results}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <VMedia
+            posterPath={item.poster_path}
+            originalTitle={item.original_name}
+            voteAverage={item.vote_average}
+          />
+        )}
+      />
+      <FlatList
+        data={todayData.results}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <VMedia
+            posterPath={item.poster_path}
+            originalTitle={item.original_name}
+            voteAverage={item.vote_average}
+          />
+        )}
+      />
+      <FlatList
+        data={topData.results}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <VMedia
+            posterPath={item.poster_path}
+            originalTitle={item.original_name}
+            voteAverage={item.vote_average}
+          />
+        )}
+      />
+    </ScrollView>
   );
 };
 
