@@ -3,12 +3,12 @@ import Swiper from 'react-native-swiper';
 import { Dimensions, FlatList } from 'react-native';
 import React from 'react';
 import Slide from '@/components/Slide';
-import VMedia from '@/components/VMedia';
 import HMedia from '@/components/HMedia';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Movie, movieApi, MovieResponse } from '@/api';
+import { movieApi, MovieResponse } from '@/api';
 import { useIsFocused } from '@react-navigation/native';
 import Loader from '@/components/Loader';
+import HList from '@/components/HList';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -62,14 +62,13 @@ const Movies = () => {
     queryFn: movieApi.trending,
   });
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     queryClient.refetchQueries({ queryKey: ['movies'] });
   };
 
   const loading = nowPlayingDataLoading || upcomingDataLoading || trendingDataLoading;
 
   const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
-  // console.log(Object.values(nowPlayingData?.results[0]).map(v => typeof v));
 
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
   // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
@@ -108,26 +107,7 @@ const Movies = () => {
                 />
               ))}
             </Swiper>
-            <ListContainer>
-              <ListTitle>Trending Movies</ListTitle>
-              {trendingData ? (
-                <TrendingScroll
-                  horizontal
-                  data={trendingData.results}
-                  keyExtractor={item => (item as unknown as Movie).id + ''}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{ paddingHorizontal: 30 }}
-                  ItemSeparatorComponent={VSeparator}
-                  renderItem={({ item }) => (
-                    <VMedia
-                      posterPath={(item as unknown as Movie).poster_path}
-                      originalTitle={(item as unknown as Movie).original_title}
-                      voteAverage={(item as unknown as Movie).vote_average}
-                    />
-                  )}
-                />
-              ) : null}
-            </ListContainer>
+            {trendingData && <HList title="Trending Movies" data={trendingData.results} />}
             <ComingSoonTitle>Coming soon</ComingSoonTitle>
           </>
         }
