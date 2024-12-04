@@ -1,11 +1,24 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text } from 'react-native';
+import styled from 'styled-components/native';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+
+const Container = styled.ScrollView`
+  background-color: ${props => props.theme.mainBgColor};
+`;
 
 const Detail = () => {
+  const { originalTitle = '' } = useLocalSearchParams();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ title: originalTitle });
+  }, []);
+
   return (
-    <View>
+    <Container>
       <Text>Detail</Text>
-    </View>
+    </Container>
   );
 };
 

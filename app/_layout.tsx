@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { darkTheme, lightTheme } from '@/theme';
 import { ThemeProvider } from 'styled-components/native';
+import { BLACK_COLOR } from '@/constants/Colors';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -43,7 +44,14 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <Stack screenOptions={{ presentation: 'modal' }}>
+        <Stack
+          screenOptions={{
+            presentation: 'modal',
+            headerStyle: { backgroundColor: isDark ? BLACK_COLOR : 'white' },
+            headerTitleStyle: {
+              color: isDark ? 'white' : BLACK_COLOR,
+            },
+          }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="deatil" />
           <Stack.Screen name="+not-found" />

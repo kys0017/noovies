@@ -49,7 +49,7 @@ export default function Slide({
   const isDark = useColorScheme() === 'dark';
   const router = useRouter();
   const goToDetail = () => {
-    router.navigate('/detail');
+    router.navigate({ pathname: '/detail', params: { originalTitle } });
   };
 
   return (

@@ -25,7 +25,7 @@ interface VMediaProps {
 const VMedia: React.FC<VMediaProps> = ({ posterPath, originalTitle, voteAverage }) => {
   const router = useRouter();
   const goToDetail = () => {
-    router.navigate('/detail');
+    router.navigate({ pathname: '/detail', params: { originalTitle } });
   };
 
   return (
