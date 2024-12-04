@@ -6,7 +6,6 @@ import Slide from '@/components/Slide';
 import HMedia from '@/components/HMedia';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { movieApi, MovieResponse } from '@/api';
-import { useIsFocused } from '@react-navigation/native';
 import Loader from '@/components/Loader';
 import HList from '@/components/HList';
 
@@ -61,11 +60,10 @@ const Movies = () => {
 
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
   // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
-  const isFocused = useIsFocused();
-
-  if (!isFocused) {
-    return null;
-  }
+  // const isFocused = useIsFocused();
+  // if (!isFocused) {
+  //   return null;
+  // }
 
   return loading ? (
     <Loader />

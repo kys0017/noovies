@@ -7,13 +7,7 @@ import { useAssets } from 'expo-asset';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'react-native';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { darkTheme, lightTheme } from '@/theme';
@@ -51,6 +45,7 @@ export default function RootLayout() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <Stack screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="deatil" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
