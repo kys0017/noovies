@@ -1,11 +1,30 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import styled from 'styled-components/native';
+
+const Container = styled.ScrollView``;
+
+const SearchBar = styled.TextInput`
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 15px;
+  width: 90%;
+  margin: 10px auto;
+`;
 
 const Search = () => {
+  const [query, setQuery] = useState('');
+
+  const onChaneText = (text: string) => setQuery(text);
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Search</Text>
-    </View>
+    <Container>
+      <SearchBar
+        placeholder="Search for Movie or Tv Show"
+        placeholderTextColor="grey"
+        returnKeyType="search"
+        onChangeText={onChaneText}
+      />
+    </Container>
   );
 };
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import Swiper from 'react-native-swiper';
 import { Dimensions, FlatList } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Slide from '@/components/Slide';
 import HMedia from '@/components/HMedia';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -36,39 +36,28 @@ const HSeparator = styled.View`
 
 const Movies = () => {
   const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
 
-  const {
-    isLoading: nowPlayingDataLoading,
-    data: nowPlayingData,
-    isRefetching: isRefetchingNowPlaying,
-  } = useQuery<MovieResponse>({
+  const { isLoading: nowPlayingDataLoading, data: nowPlayingData } = useQuery<MovieResponse>({
     queryKey: ['movies', 'nowPlaying'],
     queryFn: movieApi.nowPlaying,
   });
-  const {
-    isLoading: upcomingDataLoading,
-    data: upcomingData,
-    isRefetching: isRefetchingUpcoming,
-  } = useQuery<MovieResponse>({
+  const { isLoading: upcomingDataLoading, data: upcomingData } = useQuery<MovieResponse>({
     queryKey: ['movies', 'upcoming'],
     queryFn: movieApi.upcoming,
   });
-  const {
-    isLoading: trendingDataLoading,
-    data: trendingData,
-    isRefetching: isRefetchingTrending,
-  } = useQuery<MovieResponse>({
+  const { isLoading: trendingDataLoading, data: trendingData } = useQuery<MovieResponse>({
     queryKey: ['movies', 'trending'],
     queryFn: movieApi.trending,
   });
 
-  const onRefresh = () => {
-    queryClient.refetchQueries({ queryKey: ['movies'] });
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries({ queryKey: ['movies'] });
+    setRefreshing(false);
   };
 
   const loading = nowPlayingDataLoading || upcomingDataLoading || trendingDataLoading;
-
-  const refreshing = isRefetchingNowPlaying || isRefetchingUpcoming || isRefetchingTrending;
 
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
   // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
