@@ -70,6 +70,13 @@ export const movieApi = {
       res => res.json(),
     );
   },
+  detail: ({ queryKey }: UseQueryOptions) => {
+    const [, id] = queryKey;
+
+    return fetch(`${BASE_URL}/movie/${id}?append_to_response=videos,images`, options).then(res =>
+      res.json(),
+    );
+  },
 };
 
 export const tvApi = {
@@ -81,6 +88,13 @@ export const tvApi = {
     const [, query] = queryKey;
 
     return fetch(`${BASE_URL}/search/tv?language=en-US&page=1&query=${query}`, options).then(res =>
+      res.json(),
+    );
+  },
+  detail: ({ queryKey }: UseQueryOptions) => {
+    const [, id] = queryKey;
+
+    return fetch(`${BASE_URL}/tv/${id}?append_to_response=videos,images`, options).then(res =>
       res.json(),
     );
   },

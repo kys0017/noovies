@@ -6,6 +6,8 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { makeImgPath } from '@/utils';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BLACK_COLOR } from '@/constants/Colors';
+import { useQuery } from '@tanstack/react-query';
+import { movieApi, tvApi } from '@/api';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -40,6 +42,17 @@ const Overview = styled.Text`
 const Detail = () => {
   const searchParams = useLocalSearchParams();
   const navigation = useNavigation();
+
+  const { isLoading: moviesLoading, data: moviesData } = useQuery({
+    queryKey: ['movies', searchParams.id],
+    queryFn: movieApi.detail,
+    enabled: 'original_title' in searchParams,
+  });
+  const { isLoading: tvLoading, data: tvData } = useQuery({
+    queryKey: ['tv', searchParams.id],
+    queryFn: tvApi.detail,
+    enabled: 'original_name' in searchParams,
+  });
 
   useEffect(() => {
     navigation.setOptions({
