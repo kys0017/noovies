@@ -53,7 +53,7 @@ export default function RootLayout() {
             },
           }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="deatil" />
+          <Stack.Screen name="detail" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
