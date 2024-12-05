@@ -5,6 +5,7 @@ import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Poster from '@/components/Poster';
 import { useRouter } from 'expo-router';
+import { Movie } from '@/api';
 
 const BgImg = styled.Image``;
 
@@ -37,6 +38,7 @@ interface SlideProps {
   originalTitle: string;
   voteAverage: number;
   overview: string;
+  fullData: Movie;
 }
 
 export default function Slide({
@@ -45,11 +47,13 @@ export default function Slide({
   originalTitle,
   voteAverage,
   overview,
+  fullData,
 }: SlideProps) {
   const isDark = useColorScheme() === 'dark';
   const router = useRouter();
   const goToDetail = () => {
-    router.navigate({ pathname: '/detail', params: { originalTitle } });
+    // @ts-ignore
+    router.navigate({ pathname: '/detail', params: { ...fullData } });
   };
 
   return (

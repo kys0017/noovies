@@ -4,6 +4,7 @@ import Poster from './Poster';
 import Votes from './Votes';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
+import { Movie, TV } from '@/api';
 
 const HMovie = styled.View`
   padding: 0px 30px;
@@ -41,6 +42,7 @@ interface HMediaProps {
   overview: string;
   releaseDate?: string;
   voteAverage?: number;
+  fullData: Movie | TV;
 }
 
 const HMedia: React.FC<HMediaProps> = ({
@@ -49,10 +51,12 @@ const HMedia: React.FC<HMediaProps> = ({
   overview,
   releaseDate,
   voteAverage,
+  fullData,
 }) => {
   const router = useRouter();
   const goToDetail = () => {
-    router.navigate({ pathname: '/detail', params: { originalTitle } });
+    // @ts-ignore
+    router.navigate({ pathname: '/detail', params: { ...fullData } });
   };
 
   return (

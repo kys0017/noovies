@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Slide from '@/components/Slide';
 import HMedia from '@/components/HMedia';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { movieApi, MovieResponse } from '@/api';
+import { Movie, movieApi, MovieResponse } from '@/api';
 import Loader from '@/components/Loader';
 import HList from '@/components/HList';
 
@@ -83,13 +83,14 @@ const Movies = () => {
               showsButtons={false}
               showsPagination={false}
               containerStyle={{ marginBottom: 30, width: '100%', height: SCREEN_HEIGHT / 4 }}>
-              {nowPlayingData?.results.map((movie: any) => (
+              {nowPlayingData?.results.map((movie: Movie) => (
                 <Slide
                   backdropPath={movie.backdrop_path}
                   posterPath={movie.poster_path}
                   overview={movie.overview}
                   voteAverage={movie.vote_average}
                   originalTitle={movie.original_title}
+                  fullData={movie}
                   key={movie.id}
                 />
               ))}
@@ -105,6 +106,8 @@ const Movies = () => {
             posterPath={item.poster_path}
             originalTitle={item.original_title}
             overview={item.overview}
+            releaseDate={item.release_date}
+            fullData={item}
           />
         )}
       />
