@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
 import Swiper from 'react-native-swiper';
-import { Dimensions, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import { Dimensions, FlatList, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Slide from '@/components/Slide';
 import HMedia from '@/components/HMedia';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Movie, movieApi, MovieResponse } from '@/api';
 import Loader from '@/components/Loader';
 import HList from '@/components/HList';
@@ -41,14 +41,23 @@ const Movies = () => {
     queryKey: ['movies', 'nowPlaying'],
     queryFn: movieApi.nowPlaying,
   });
-  const { isLoading: upcomingDataLoading, data: upcomingData } = useQuery<MovieResponse>({
+  const { isLoading: upcomingDataLoading, data: upcomingData } = useInfiniteQuery({
     queryKey: ['movies', 'upcoming'],
     queryFn: movieApi.upcoming,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
   });
   const { isLoading: trendingDataLoading, data: trendingData } = useQuery<MovieResponse>({
     queryKey: ['movies', 'trending'],
     queryFn: movieApi.trending,
   });
+
+  // useEffect(() => {
+  //   if (upcomingData) {
+  //     console.log(upcomingData);
+  //     console.log(upcomingData.pages.map(page => page.results).flat());
+  //   }
+  // }, [upcomingData]);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -57,6 +66,9 @@ const Movies = () => {
   };
 
   const loading = nowPlayingDataLoading || upcomingDataLoading || trendingDataLoading;
+  const loadMore = () => {
+    alert('load more!');
+  };
 
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
   // Tab.Navigation 에서처럼 공통 적용되지 않고 스크린마다 적용해야 한다.
@@ -70,9 +82,11 @@ const Movies = () => {
   ) : (
     (upcomingData && (
       <FlatList
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.4}
         onRefresh={onRefresh}
         refreshing={refreshing}
-        data={upcomingData.results}
+        data={upcomingData.pages.map(page => page.results).flat()}
         ListHeaderComponent={
           <>
             <Swiper
