@@ -41,11 +41,19 @@ const Movies = () => {
     queryKey: ['movies', 'nowPlaying'],
     queryFn: movieApi.nowPlaying,
   });
-  const { isLoading: upcomingDataLoading, data: upcomingData } = useInfiniteQuery({
+  const {
+    isLoading: upcomingDataLoading,
+    data: upcomingData,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ['movies', 'upcoming'],
     queryFn: movieApi.upcoming,
     initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: (currentPage, pages) => {
+      const nextPage = currentPage.page + 1;
+      return nextPage > currentPage.total_page ? null : nextPage;
+    },
   });
   const { isLoading: trendingDataLoading, data: trendingData } = useQuery<MovieResponse>({
     queryKey: ['movies', 'trending'],
@@ -67,7 +75,9 @@ const Movies = () => {
 
   const loading = nowPlayingDataLoading || upcomingDataLoading || trendingDataLoading;
   const loadMore = () => {
-    alert('load more!');
+    if (hasNextPage) {
+      fetchNextPage();
+    }
   };
 
   // 예전 Tab.Navigation screenOption 에 unmountOnBlur: true 와 같은 효과
@@ -83,7 +93,6 @@ const Movies = () => {
     (upcomingData && (
       <FlatList
         onEndReached={loadMore}
-        onEndReachedThreshold={0.4}
         onRefresh={onRefresh}
         refreshing={refreshing}
         data={upcomingData.pages.map(page => page.results).flat()}
